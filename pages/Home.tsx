@@ -44,7 +44,7 @@ const Home: React.FC = () => {
               Learn More About Us
             </NavLink>
             <NavLink to="/livestream" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-church-maroon-dark font-bold py-3 px-6 rounded-full shadow-md transition-all">
-              Watch Live
+              Watch Our Facebook Live
             </NavLink>
           </div>
         </div>
