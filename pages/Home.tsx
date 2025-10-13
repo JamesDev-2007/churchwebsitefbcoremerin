@@ -32,7 +32,7 @@ const Home: React.FC = () => {
           playsInline
           className="absolute z-0 w-full h-full object-cover"
         >
-          <source src="/images/IMG_1649.MOV" type="video/mp4" />
+          <source src="/images/IMG_1649.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -119,7 +119,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Meet Our Pastors Section */}
-      <section className="relative bg-cover bg-center" style={{ backgroundImage: "url('/images/1759735588248.jpg')" }}>
+      <section className="relative bg-cover bg-center" style={{ backgroundImage: "url('/images/1759735588248.jpeg')" }}>
           <div className="absolute inset-0 bg-gray-800 opacity-70"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

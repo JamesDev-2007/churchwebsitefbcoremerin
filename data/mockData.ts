@@ -380,11 +380,11 @@ export const leaders: Leader[] = [
     name: 'Rev. Dr. S.O. Afolabi',
     position: 'Church Pastor',
     category: 'Pastor',
-    imageUrl: '/images/1759735367670.jpg',
+    imageUrl: '/images/1759735367670.jpeg',
     shortBio: 'Leading our congregation with wisdom and grace, Rev. Dr. Afolabi has been our shepherd since 2000.',
     fullBio: 'Rev. Dr. S.O. Afolabi joined First Baptist Church Itire in the year 2000, bringing with him a profound passion for the Gospel and a heart for the community. Under his leadership, the church has seen tremendous growth, both spiritually and in numbers. He holds a Doctorate in Theology and has authored several books on faith and Christian living. His ministry focuses on sound biblical teaching, compassionate outreach, and equipping believers to live out their God-given purpose.'
   },
-  
+
   {
     id: '2',
     name: 'Deacon Emmanuel Ogunmola',
