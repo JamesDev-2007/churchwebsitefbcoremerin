@@ -119,7 +119,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Meet Our Pastors Section */}
-      <section className="relative bg-cover bg-center" style={{ backgroundImage: "url('/images/2.jpg')" }}>
+      <section className="relative bg-cover bg-center" style={{ backgroundImage: "url('/images/2.JPG')" }}>
           <div className="absolute inset-0 bg-gray-800 opacity-70"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
