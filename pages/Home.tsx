@@ -119,15 +119,15 @@ const Home: React.FC = () => {
       </section>
 
       {/* Meet Our Pastors Section */}
-      <section className="relative bg-cover bg-center" style={{ backgroundImage: "url('/images/1759735588248.jpeg')" }}>
+      <section className="relative bg-cover bg-center" style={{ backgroundImage: "url('/images/2.jpg')" }}>
           <div className="absolute inset-0 bg-gray-800 opacity-70"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                   <div className="text-white">
-                      <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4">Meet Our Senior Pastor</h2>
+                      <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4">Meet Our Pastor</h2>
                       <h3 className="text-2xl font-semibold mb-4">Rev Dr. S.O Afolabi</h3>
                       <p className="text-gray-200 mb-8 max-w-lg">
-                          Rev. Dr. S.O. Afolabi joined First Baptist Church Itire in the year 2000, bringing with him a profound passion for the Gospel and a heart for the community. His ministry focuses on sound biblical teaching, compassionate outreach, and equipping believers to live out their God-given purpose.
+                          Rev. Dr. S.O. Afolabi joined First Baptist Church Itire in the year 2019, bringing with him a profound passion for the Gospel and a heart for the community. His ministry focuses on sound biblical teaching, compassionate outreach, and equipping believers to live out their God-given purpose.
                       </p>
                       <NavLink to="/about" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-church-maroon-dark font-bold py-3 px-8 rounded-full shadow-md transition-all duration-300">
                           Learn More
