@@ -4,6 +4,7 @@ import Countdown from '../components/Countdown';
 import DailyBibleVerse from '../components/DailyBibleVerse';
 import { events as mockEvents, sermons as mockSermons } from '../data/mockData';
 import { MapPinIcon, ClockIcon } from '../components/icons';
+import StatsCounter from '../components/StatsCounter';
 
 const Home: React.FC = () => {
   // Get today's date at midnight for accurate comparison
@@ -49,12 +50,18 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      s
+
 
       {/* Countdown to next service */}
       <Countdown />
 
       {/* Daily Verse */}
       <DailyBibleVerse />
+
+         {/* Stats Counter */}
+      <StatsCounter />
 
       {/* Upcoming Events Section */}
       <section className="py-16 md:py-20 bg-white dark:bg-gray-800">

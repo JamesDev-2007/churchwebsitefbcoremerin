@@ -125,6 +125,24 @@ export interface GuidedPrayer {
   audioUrl?: string;
 }
 
+export interface AboutPageContent {
+    introParagraph1: string;
+    introParagraph2: string;
+    mission: string;
+    vision: string;
+    motto: string;
+    covenant: string;
+    history: string;
+}
+
+export interface ChurchHistoryLeader {
+    name: string;
+    office: string;
+    date: string;
+}
+
+
+
 export interface BibleStudy {
   id: string;
   title: string;
@@ -133,3 +151,4 @@ export interface BibleStudy {
   fileUrl: string;
   fileType: 'pdf' | 'doc';
 }
+

@@ -1,5 +1,5 @@
-import { Sermon, Event, BlogPost, Ministry, QuizQuestion, Leader, HistoryMilestone, GalleryImage, Post, AnsweredQuestion, RecommendedResource, SpiritualChallenge, GuidedPrayer, BibleStudy } from '../types';
 
+import { Sermon, Event, BlogPost, Ministry, QuizQuestion, Leader, HistoryMilestone, GalleryImage, Post, AnsweredQuestion, RecommendedResource, SpiritualChallenge, GuidedPrayer, AboutPageContent, ChurchHistoryLeader, BibleStudy } from '../types';
 export const sermons: Sermon[] = [
   { id: '1', title: 'The Power of Faith', preacher: 'Rev. Dr. S.O. Afolabi', date: '2024-07-21', description: 'Discover how unwavering faith can move mountains in your life.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', audioUrl: 'audio1.mp3', tags: ['faith', 'hope'] },
   { id: '2', title: 'Living in God\'s Love', preacher: 'Rev. Dr. S.O. Afolabi', date: '2024-07-14', description: 'Understanding the depths of God\'s unconditional love for us.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', audioUrl: 'audio2.mp3', tags: ['love', 'grace'] },
@@ -690,4 +690,29 @@ export const bibleStudies: BibleStudy[] = [
     fileUrl: '/files/placeholder.doc',
     fileType: 'doc',
   },
+];
+
+export const aboutPageContent: AboutPageContent = {
+  introParagraph1: 'We are a vibrant community of believers dedicated to spreading the love of Christ and making a positive impact in our world. At First Baptist Church Itire, we strive to create an atmosphere of warmth and acceptance, where individuals from all walks of life can find a place to belong and grow in their faith.',
+  introParagraph2: 'Whether you are joining us for worship, seeking spiritual guidance, or looking for a community to connect with, we are here for you. Our doors and our hearts are always open.',
+  mission: 'To love God, love people, and make disciples of Jesus Christ.',
+  vision: 'To be a transformative presence in our community, known for our authentic faith, compassionate outreach, and unwavering commitment to biblical truth. We envision a church where people from all walks of life can find a home, grow in their relationship with Christ, and use their gifts to serve others.',
+  motto: 'Advancing the Kingdom, One Soul at a Time.',
+  covenant: `
+    <p>Having been led as we believe by the Spirit of God, to receive the Lord Jesus Christ as our Saviour, and on the profession of our faith having been baptized in the name of the Father, and of the Son, and of the Holy Ghost.</p>
+    <p>We do now, in the presence of God, His Angels, and this assembly, most solemnly and joyfully enter into covenant with one another, as one body in Christ.</p>
+    <p>We engage, therefore, by the aid of the Holy Spirit, to walk together in Christian Love. <strong>(John 13:35)</strong>; to strive for the advancement of this Church, in knowledge, holiness and comfort, <strong>(Phil. 1:27; II Tim. 2:15; II Cor. 7:1; II Pet. 3:11)</strong>.</p>
+    <p>To promote its prosperity and spirituality, <strong>(Ps, 122:9)</strong>, to sustain its worship, ordinances, discipline and doctrine <strong>(Heb. 10:25; Matt. 28:19; I Cor. 11:23-26; Jude 3)</strong>.</p>
+    <p>To contribute cheerfully and regularly to the support of the Ministry, the expenses of the Church, the relief of the poor and the spread of the gospel to all nations <strong>(Matt. 6:33; I Cor. 16:2; Mal. 3:10; Number 1:13)</strong>.</p>
+  `,
+  history: 'The origin of First Baptist Church Itire actually dates back to 1970 when a small group of believers gathered with a vision to create a place of worship and fellowship in the heart of the community. From these humble beginnings in a rented space, the church has grown through God\'s grace, building its first sanctuary in 1985 and expanding its ministries to include a community center, digital outreach, and missions abroad. For over 50 years, FBC Itire has remained a beacon of faith, hope, and love, committed to serving God and our neighbors.'
+};
+
+export const churchHistoryLeaders: ChurchHistoryLeader[] = [
+    { name: 'Mr. Akinremi Akapo', office: 'Leader', date: '1970 - 1974' },
+    { name: 'Rev. N. F. Fatunla', office: 'Pastor', date: '1975 - 1980' },
+    { name: 'Mr. W. C. Okodi', office: 'Leader', date: '1981' },
+    { name: 'Mr. S. I. Olawale', office: 'Leader', date: '1982 - 1985' },
+    { name: 'Rev. Dr. Samson O. Olaniyi', office: 'Church Pastor', date: '1986 - 1999' },
+    { name: 'Rev. Dr. S.O. Afolabi', office: 'Church Pastor', date: '2000 - Date' }
 ];
