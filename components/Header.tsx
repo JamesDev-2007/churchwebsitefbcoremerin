@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { MenuIcon, CloseIcon, ChevronDownIcon } from './icons';
 import ThemeToggle from './ThemeToggle';
+import { useUser } from '../contexts/UserContext';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
+
 
 interface NavLinkItem {
   to: string;
@@ -15,25 +19,24 @@ interface NavItemWithSublinks {
 
 type NavItemType = NavLinkItem | NavItemWithSublinks;
 
-
 const navLinks: NavItemType[] = [
-    { to: '/', text: 'Home' },
-    { to: '/about', text: 'About Us' },
-    { to: '/pastors-corner', text: "Pastor's Corner" },
-    { to: '/spiritual-growth', text: 'Spiritual Growth' },
-    { to: '/livestream', text: 'Livestream' },
-    {
-        text: 'Media',
-        subLinks: [
-            { to: '/gallery', text: 'Gallery' },
-            { to: '/blog', text: 'Blog' },
-        ],
-    },
-    { to: '/ministries', text: 'Ministries' },
-    { to: '/events', text: 'Events' },
-    { to: '/sermons', text: 'Sermons' },
-    { to: '/connect', text: 'Connect' },
-    { to: '/contact', text: 'Contact' },
+  { to: '/', text: 'Home' },
+  { to: '/about', text: 'About Us' },
+  { to: '/pastors-corner', text: "Pastor's Corner" },
+  { to: '/spiritual-growth', text: 'Spiritual Growth' },
+  { to: '/livestream', text: 'Livestream' },
+  {
+    text: 'Media',
+    subLinks: [
+      { to: '/gallery', text: 'Gallery' },
+      { to: '/blog', text: 'Blog' },
+    ],
+  },
+  { to: '/ministries', text: 'Ministries' },
+  { to: '/events', text: 'Events' },
+  { to: '/sermons', text: 'Sermons' },
+  { to: '/connect', text: 'Connect' },
+  { to: '/contact', text: 'Contact' },
 ];
 
 const NavItem: React.FC<{ to: string; children: React.ReactNode; onClick?: () => void }> = ({ to, children, onClick }) => (
@@ -43,8 +46,8 @@ const NavItem: React.FC<{ to: string; children: React.ReactNode; onClick?: () =>
     className={({ isActive }) =>
       `block py-2 px-3 rounded md:p-0 transition-colors duration-200 ${
         isActive
-          ? 'text-white bg-church-maroon-dark md:bg-transparent md:text-yellow-300'
-          : 'text-gray-300 hover:bg-church-maroon-dark md:hover:bg-transparent md:hover:text-white dark:hover:text-yellow-200'
+          ? 'text-white bg-church-maroon-dark md:bg-transparent md:text-yellow-400'
+          : 'text-gray-300 hover:bg-church-maroon-dark md:hover:bg-transparent md:hover:text-white dark:hover:text-yellow-300'
       }`
     }
   >
@@ -54,80 +57,107 @@ const NavItem: React.FC<{ to: string; children: React.ReactNode; onClick?: () =>
 
 const DesktopDropdown: React.FC<{ item: NavItemWithSublinks }> = ({ item }) => (
   <div className="relative group">
-    <button className="text-gray-300 hover:text-white dark:hover:text-yellow-200 flex items-center py-2 px-3 rounded md:p-0 transition-colors duration-200">
+    <button className="text-gray-300 hover:text-white dark:hover:text-yellow-300 flex items-center py-2 px-3 rounded md:p-0 transition-colors duration-200">
       {item.text}
       <ChevronDownIcon className="w-4 h-4 ml-1" />
     </button>
     <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-        {item.subLinks.map(subLink => (
-             <NavLink
-                key={subLink.to}
-                to={subLink.to}
-                className={({ isActive }) =>
-                    `block px-4 py-2 text-sm ${
-                    isActive
-                        ? 'bg-church-maroon text-white'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-warm-gray dark:hover:bg-gray-700'
-                    }`
-                }
-             >
-                {subLink.text}
-            </NavLink>
-        ))}
+      {item.subLinks.map(subLink => (
+        <NavLink
+          key={subLink.to}
+          to={subLink.to}
+          className={({ isActive }) =>
+            `block px-4 py-2 text-sm ${
+              isActive
+                ? 'bg-church-maroon text-white'
+                : 'text-gray-700 dark:text-gray-300 hover:bg-warm-gray dark:hover:bg-gray-700'
+            }`
+          }
+        >
+          {subLink.text}
+        </NavLink>
+      ))}
     </div>
   </div>
 );
 
 const MobileDropdown: React.FC<{ item: NavItemWithSublinks; closeMenu: () => void }> = ({ item, closeMenu }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-        <div>
-            <button onClick={() => setIsOpen(!isOpen)} className="w-full flex justify-between items-center py-2 px-3 text-gray-300 hover:bg-church-maroon-dark rounded">
-                {item.text}
-                <ChevronDownIcon className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-            </button>
-            {isOpen && (
-                <div className="pl-4 border-l-2 border-church-maroon-dark">
-                    {item.subLinks.map(subLink => (
-                        <NavItem key={subLink.to} to={subLink.to} onClick={closeMenu}>{subLink.text}</NavItem>
-                    ))}
-                </div>
-            )}
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div>
+      <button onClick={() => setIsOpen(!isOpen)} className="w-full flex justify-between items-center py-2 px-3 text-gray-300 hover:bg-church-maroon-dark rounded">
+        {item.text}
+        <ChevronDownIcon className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="pl-4 border-l-2 border-church-maroon-dark">
+          {item.subLinks.map(subLink => (
+            <NavItem key={subLink.to} to={subLink.to} onClick={closeMenu}>{subLink.text}</NavItem>
+          ))}
         </div>
-    )
+      )}
+    </div>
+  );
 };
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useUser();
+  const navigate = useNavigate(); // ✅ added for redirect
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
+  const handleLogout = async () => {
+    await signOut(auth);
+    closeMobileMenu();
+    navigate('/'); // ✅ redirect to homepage
+  };
 
   return (
-    <header className="bg-church-maroon dark:bg-church-maroon-dark shadow-lg sticky top-0 z-50 font-poppins">
+    <header className="w-full bg-church-maroon dark:bg-church-maroon-dark shadow-lg sticky top-0 z-50 font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
-            <NavLink to="/" className="text-white text-2xl font-bold">
-              FBC Itire
+            <NavLink to="/" className="flex items-center gap-3 text-white">
+              <img
+                src="/images/1759735673104-removebg-preview.png"
+                alt="FBC Itire Logo"
+                className="h-8 sm:h-10 w-auto"
+              />
+              <span className="text-2xl font-bold font-poppins">FBC Itire</span>
             </NavLink>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-4">
-              {navLinks.map((link) => 
-                'subLinks' in link 
-                    ? <DesktopDropdown key={link.text} item={link} />
-                    : <NavItem key={link.to} to={link.to}>{link.text}</NavItem>
-              )}
-              <ThemeToggle />
-              <NavLink
-                to="/donate"
-                className="bg-yellow-400 text-church-maroon-dark hover:bg-yellow-300 font-bold py-2 px-4 rounded-full shadow-md transition-transform transform hover:scale-105"
-              >
-                Donate
-              </NavLink>
-            </div>
+          <div className="hidden md:flex items-center space-x-4 ml-10">
+            {navLinks.map((link) =>
+              'subLinks' in link
+                ? <DesktopDropdown key={link.text} item={link} />
+                : <NavItem key={link.to} to={link.to}>{link.text}</NavItem>
+            )}
+            <ThemeToggle />
+            {user ? (
+              <>
+                <span className="text-yellow-300 font-semibold">Welcome, {user.displayName || 'Member'}</span>
+                <button
+                  onClick={handleLogout}
+                  className="text-gray-300 hover:text-white dark:hover:text-yellow-300 font-semibold py-2 px-3 rounded-md transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink to="/login" className="text-gray-300 hover:text-white dark:hover:text-yellow-300 font-semibold py-2 px-3 rounded-md transition-colors">
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className="bg-yellow-400 text-church-maroon-dark hover:bg-yellow-300 font-bold py-2 px-4 rounded-full shadow-md transition-transform transform hover:scale-105"
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            )}
           </div>
           <div className="md:hidden flex items-center">
             <ThemeToggle />
@@ -144,20 +174,45 @@ const Header: React.FC = () => {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden">
+        <div className="md:hidden max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-             {navLinks.map((link) => 
-                'subLinks' in link 
-                    ? <MobileDropdown key={link.text} item={link} closeMenu={closeMobileMenu} />
-                    : <NavItem key={link.to} to={link.to} onClick={closeMobileMenu}>{link.text}</NavItem>
+            {navLinks.map((link) =>
+              'subLinks' in link
+                ? <MobileDropdown key={link.text} item={link} closeMenu={closeMobileMenu} />
+                : <NavItem key={link.to} to={link.to} onClick={closeMobileMenu}>{link.text}</NavItem>
+            )}
+            <div className="mt-4 pt-4 border-t border-church-maroon-dark space-y-2">
+              {user ? (
+                <>
+                  <span className="block text-center text-yellow-300 font-semibold">
+                    Welcome, {user.displayName || 'Member'}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-center bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    to="/login"
+                    onClick={closeMobileMenu}
+                    className="block text-center bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    to="/signup"
+                    onClick={closeMobileMenu}
+                    className="block text-center bg-yellow-400 text-church-maroon-dark hover:bg-yellow-300 font-bold py-2 px-4 rounded-full"
+                  >
+                    Sign Up
+                  </NavLink>
+                </>
               )}
-             <NavLink
-                to="/donate"
-                onClick={closeMobileMenu}
-                className="block text-center mt-2 bg-yellow-400 text-church-maroon-dark hover:bg-yellow-300 font-bold py-2 px-4 rounded-full shadow-md transition-transform transform hover:scale-105"
-              >
-                Donate
-              </NavLink>
+            </div>
           </div>
         </div>
       )}

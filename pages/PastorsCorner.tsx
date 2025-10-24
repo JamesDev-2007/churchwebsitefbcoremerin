@@ -22,6 +22,7 @@ const PastorsCorner: React.FC = () => {
     );
   }
   
+  
   const handleQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (question.trim()) {
@@ -205,12 +206,23 @@ const PastorsCorner: React.FC = () => {
 
   return (
     <div className="bg-warm-gray dark:bg-gray-900 font-open-sans">
-      <section className="bg-church-maroon-dark text-white py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold font-poppins">Pastor's Corner</h1>
-          <p className="mt-4 text-lg md:text-xl text-yellow-200">A Message from Our Shepherd, {pastor.name}</p>
-        </div>
-      </section>
+      <section
+  className="relative text-white py-20 bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/images/bible-1166260_1280.jpg')", // put your local image here (in /public/images)
+  }}
+>
+  {/* Dark overlay */}
+  <div className="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
+
+  <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 className="text-4xl md:text-5xl font-bold font-poppins">Pastor's Corner</h1>
+    <p className="mt-4 text-lg md:text-xl text-yellow-200">
+      A Message from Our Shepherd, {pastor.name}
+    </p>
+  </div>
+</section>
+
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col lg:flex-row gap-8">

@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { leaders, aboutPageContent, churchHistoryLeaders } from '../data/mockData';
-import type { Leader, ChurchHistoryLeader } from '../types';
+import type { Leader } from '../types';
 import { PlusIcon, MinusIcon, ChevronRightIcon } from '../components/icons';
 import LeaderCard from '../components/LeaderCard';
 import Modal from '../components/Modal';
@@ -40,6 +40,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
 const About: React.FC = () => {
     const [openAccordion, setOpenAccordion] = useState<string | null>('Our Mission');
     const [selectedLeader, setSelectedLeader] = useState<Leader | null>(null);
+    const [activeFilter, setActiveFilter] = useState<'All' | 'Pastor' | 'Deacon' | 'Office Holder'>('All');
 
     const toggleAccordion = (title: string) => {
         setOpenAccordion(openAccordion === title ? null : title);
@@ -47,26 +48,20 @@ const About: React.FC = () => {
 
     const openModal = (leader: Leader) => setSelectedLeader(leader);
     const closeModal = () => setSelectedLeader(null);
-    
-    const pastors = useMemo(() => leaders.filter(l => l.category === 'Pastor'), []);
-    const deacons = useMemo(() => leaders.filter(l => l.category === 'Deacon'), []);
-    const officeHolders = useMemo(() => leaders.filter(l => l.category === 'Office Holder'), []);
 
-    const renderLeaderSection = (title: string, leaderList: Leader[]) => (
-        <section className="mb-16">
-            <h2 className="text-3xl font-bold text-center text-church-maroon dark:text-yellow-400 font-poppins mb-8">{title}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {leaderList.map(leader => (
-                    <LeaderCard key={leader.id} leader={leader} onReadMore={openModal} />
-                ))}
-            </div>
-        </section>
-    );
+    const filteredLeaders = useMemo(() => {
+        if (activeFilter === 'All') return leaders;
+        return leaders.filter(leader => leader.category === activeFilter);
+    }, [activeFilter]);
+    
+    const deacons = useMemo(() => leaders.filter(l => l.category === 'Deacon'), []);
+
+    const filterCategories: ('All' | 'Pastor' | 'Deacon' | 'Office Holder')[] = ['All', 'Pastor', 'Deacon', 'Office Holder'];
 
     return (
         <div className="bg-white dark:bg-gray-900 font-open-sans">
              {/* Hero Section */}
-            <section className="relative h-64 md:h-80 bg-cover bg-center text-white flex items-center justify-center" style={{ backgroundImage: "url('https://picsum.photos/1200/800?random=101')" }}>
+            <section className="relative h-64 md:h-80 bg-cover bg-center text-white flex items-center justify-center" style={{ backgroundImage: "url('/images/1758523173381.jpg')" }}>
                 <div className="absolute inset-0 bg-black opacity-60"></div>
                 <div className="relative z-10 text-center px-4">
                     <h1 className="text-4xl md:text-6xl font-bold font-poppins">About Us</h1>
@@ -79,9 +74,9 @@ const About: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
                     {/* Left Column: Image Collage */}
                     <div className="relative h-[400px] md:h-[500px]">
-                        <img src="" alt="Church community" className="absolute top-0 left-0 w-3/4 h-full object-cover rounded-lg shadow-lg"/>
+                        <img src="/images/1759735545142.jpg" alt="Church community" className="absolute top-0 left-0 w-3/4 h-full object-cover rounded-lg shadow-lg"/>
                         <div className="absolute top-4 -left-4 w-1 h-3/4 bg-yellow-400"></div>
-                        <img src="/images/1759735604458.jpg" alt="Church service" className="absolute bottom-0 right-0 w-1/2 h-1/2 object-cover rounded-lg shadow-2xl border-8 border-white dark:border-gray-900"/>
+                        <img src="/images/1759735492643.jpg" alt="Church service" className="absolute bottom-0 right-0 w-1/2 h-1/2 object-cover rounded-lg shadow-2xl border-8 border-white dark:border-gray-900"/>
                     </div>
                     
                     {/* Right Column: Welcome Text */}
@@ -160,9 +155,31 @@ const About: React.FC = () => {
                         <h1 className="text-4xl font-bold text-church-maroon dark:text-yellow-400 font-poppins">Our Leadership</h1>
                         <p className="mt-2 text-lg md:text-xl text-gray-600 dark:text-gray-400">Meet the dedicated team serving our church family.</p>
                     </div>
-                    {pastors.length > 0 && renderLeaderSection('Our Pastor', pastors)}
-                    {deacons.length > 0 && renderLeaderSection('Our Deacons', deacons)}
-                    {officeHolders.length > 0 && renderLeaderSection('Our Office Holders', officeHolders)}
+                    
+                    {/* Filter Buttons */}
+                    <div className="flex flex-wrap justify-center gap-2 mb-10">
+                        {filterCategories.map(category => (
+                             <button
+                                key={category}
+                                onClick={() => setActiveFilter(category)}
+                                className={`px-4 py-2 font-semibold rounded-full transition-colors duration-200 ${
+                                    activeFilter === category
+                                        ? 'bg-church-maroon text-white shadow-md'
+                                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
+                                }`}
+                            >
+                                {category === 'Office Holder' ? 'Office Holders' : category === 'Pastor' ? 'Pastors' : category === 'Deacon' ? 'Deacons' : 'All'}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Leaders Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredLeaders.map(leader => (
+                            <LeaderCard key={leader.id} leader={leader} onReadMore={openModal} />
+                        ))}
+                    </div>
+
                 </div>
             </section>
 

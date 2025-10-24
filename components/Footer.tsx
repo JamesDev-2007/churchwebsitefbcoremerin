@@ -8,8 +8,15 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <h3 className="text-2xl font-bold text-white">FBC Itire</h3>
-            <p className="mt-2 text-sm text-gray-400">First Baptist Church Itire<br />12 Oremerin Street, Ehin-Iga, Itire, Lagos, Nigeria</p>
+            <NavLink to="/" className="inline-flex items-center gap-3 text-white mb-2">
+                               <img
+      src="/images/1759735673104-removebg-preview.png"
+      alt="FBC Itire Logo"
+      className="h-10 w-auto"
+    />
+              <span className="text-2xl font-bold font-poppins">FBC Itire</span>
+            </NavLink>
+            <p className="text-sm text-gray-400">First Baptist Church Itire<br />123 Church Street, Itire, Lagos, Nigeria</p>
           </div>
           <div>
             <h4 className="font-semibold text-white tracking-wider uppercase">Navigate</h4>
