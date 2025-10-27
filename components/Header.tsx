@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { MenuIcon, CloseIcon, ChevronDownIcon } from './icons';
 import ThemeToggle from './ThemeToggle';
-import { useUser } from '../contexts/UserContext';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
 
 
 interface NavLinkItem {
@@ -102,17 +99,13 @@ const MobileDropdown: React.FC<{ item: NavItemWithSublinks; closeMenu: () => voi
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useUser();
+
   const navigate = useNavigate(); // ✅ added for redirect
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    closeMobileMenu();
-    navigate('/'); // ✅ redirect to homepage
-  };
+ 
 
   return (
     <header className="w-full bg-church-maroon dark:bg-church-maroon-dark shadow-lg sticky top-0 z-50 font-poppins">
@@ -123,7 +116,7 @@ const Header: React.FC = () => {
               <img
                 src="/images/1759735673104-removebg-preview.png"
                 alt="FBC Itire Logo"
-                className="h-8 sm:h-10 w-auto"
+                className="h-10 w-auto"
               />
               <span className="text-2xl font-bold font-poppins">FBC Itire</span>
             </NavLink>
@@ -135,29 +128,7 @@ const Header: React.FC = () => {
                 : <NavItem key={link.to} to={link.to}>{link.text}</NavItem>
             )}
             <ThemeToggle />
-            {user ? (
-              <>
-                <span className="text-yellow-300 font-semibold">Welcome, {user.displayName || 'Member'}</span>
-                <button
-                  onClick={handleLogout}
-                  className="text-gray-300 hover:text-white dark:hover:text-yellow-300 font-semibold py-2 px-3 rounded-md transition-colors"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <NavLink to="/login" className="text-gray-300 hover:text-white dark:hover:text-yellow-300 font-semibold py-2 px-3 rounded-md transition-colors">
-                  Login
-                </NavLink>
-                <NavLink
-                  to="/signup"
-                  className="bg-yellow-400 text-church-maroon-dark hover:bg-yellow-300 font-bold py-2 px-4 rounded-full shadow-md transition-transform transform hover:scale-105"
-                >
-                  Sign Up
-                </NavLink>
-              </>
-            )}
+           
           </div>
           <div className="md:hidden flex items-center">
             <ThemeToggle />
@@ -181,39 +152,9 @@ const Header: React.FC = () => {
                 ? <MobileDropdown key={link.text} item={link} closeMenu={closeMobileMenu} />
                 : <NavItem key={link.to} to={link.to} onClick={closeMobileMenu}>{link.text}</NavItem>
             )}
-            <div className="mt-4 pt-4 border-t border-church-maroon-dark space-y-2">
-              {user ? (
-                <>
-                  <span className="block text-center text-yellow-300 font-semibold">
-                    Welcome, {user.displayName || 'Member'}
-                  </span>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-center bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <NavLink
-                    to="/login"
-                    onClick={closeMobileMenu}
-                    className="block text-center bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
-                  >
-                    Login
-                  </NavLink>
-                  <NavLink
-                    to="/signup"
-                    onClick={closeMobileMenu}
-                    className="block text-center bg-yellow-400 text-church-maroon-dark hover:bg-yellow-300 font-bold py-2 px-4 rounded-full"
-                  >
-                    Sign Up
-                  </NavLink>
-                </>
-              )}
+              
             </div>
-          </div>
+          
         </div>
       )}
     </header>

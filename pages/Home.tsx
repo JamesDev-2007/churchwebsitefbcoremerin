@@ -208,7 +208,7 @@ const Home: React.FC = () => {
                     {upcomingEvents.map(event => (
                        <NavLink to="/events" key={event.id} className="flex-shrink-0 w-64 md:w-72 rounded-lg overflow-hidden shadow-lg group transition-transform duration-300 hover:-translate-y-2">
                             <div className="relative h-80">
-                                <img src="/images/1759735458369.jpg" alt={event.title} className="w-full h-full object-cover" />
+                                <img src="/images/1.JPG" alt={event.title} className="w-full h-full object-cover" />
 
                                 <div className="absolute top-1/2 -translate-y-1/2 right-0 bg-red-600 text-white py-2 px-4 rounded-l-md text-center leading-none shadow-lg">
                                     <p className="font-bold text-2xl">{new Date(event.date + 'T00:00:00').getDate()}</p>
